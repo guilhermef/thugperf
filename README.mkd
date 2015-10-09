@@ -3,6 +3,7 @@ simple page load time measurement tool
 
 ## deps:
 * xvfb
+* Chrome
 
 ## install:
 ```
