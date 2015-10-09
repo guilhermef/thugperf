@@ -13,6 +13,9 @@ simple page load time measurement tool
 ```
   thugperf http://www.globo.com
   {'domComplete': 6521, 'domContentLoadedEventEnd': 2711, 'domInteractive': 2702}
+  # or
+  thugperf -m http://www.globo.com
+  {'domComplete': 6521, 'domContentLoadedEventEnd': 2711, 'domInteractive': 2702}
 
 ```
 
