@@ -1,4 +1,4 @@
-# Thugpef
+# Thugperf
 simple page load time measurement tool
 
 ## deps:
