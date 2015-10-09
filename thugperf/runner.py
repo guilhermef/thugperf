@@ -62,8 +62,6 @@ def main():
     runner = Runner(url=args.url, mobile=args.mobile)
     with Xvfb(width=1280, height=720):
         runner.start()
-        try:
-            runner.run_perf()
-            runner.print_perf()
-        finally:
-            runner.quit()
+        runner.run_perf()
+        runner.print_perf()
+        runner.quit()
