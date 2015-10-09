@@ -1,7 +1,9 @@
 import os
 import platform
 import argparse
+
 from selenium import webdriver
+from xvfbwrapper import Xvfb
 import seleniumwrapper as selw
 import selenium.webdriver.chrome.service as chrome_service
 
@@ -58,9 +60,10 @@ def main():
     )
     args = parser.parse_args()
     runner = Runner(url=args.url, mobile=args.mobile)
-    runner.start()
-    try:
-        runner.run_perf()
-        runner.print_perf()
-    finally:
-        runner.quit()
+    with Xvfb(width=1280, height=720):
+        runner.start()
+        try:
+            runner.run_perf()
+            runner.print_perf()
+        finally:
+            runner.quit()

@@ -1,0 +1,20 @@
+# Thugpef
+simple page load time measurement tool
+
+## deps:
+* xvfb
+
+## install:
+```
+  pip install thugperf
+```
+
+## running:
+```
+  thugperf http://www.globo.com
+  {'domComplete': 6521, 'domContentLoadedEventEnd': 2711, 'domInteractive': 2702}
+
+```
+
+## options:
+* -m [Emulate mobile]

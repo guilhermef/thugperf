@@ -26,7 +26,8 @@ setup(
     include_package_data=True,
 
     install_requires=[
-        'seleniumwrapper'
+        'seleniumwrapper',
+        'xvfbwrapper'
     ],
 
     entry_points={
