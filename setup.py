@@ -12,6 +12,7 @@ setup(
     author='Guilherme Souza',
     author_email='guivideojob@gmail.com',
     license='MIT',
+    url='https://github.com/guilhermef/thugperf',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
