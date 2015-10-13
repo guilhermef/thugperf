@@ -9,9 +9,15 @@ import selenium.webdriver.chrome.service as chrome_service
 
 
 class Runner(object):
-    def __init__(self, url, mobile=False):
+    def __init__(self, url, runs, mobile=False):
         self.url = url
         self.mobile = mobile
+        self.runs = runs
+        self.results = {
+            'domComplete': [],
+            'domInteractive': [],
+            'domContentLoadedEventEnd': []
+        }
 
     def start(self):
         path = os.path.join(
@@ -23,9 +29,6 @@ class Runner(object):
         self.service = chrome_service.Service(path)
         self.service.start()
 
-    def quit(self):
-        self.driver.quit()
-
     def run_perf(self):
         chrome_options = webdriver.ChromeOptions()
         if self.mobile:
@@ -35,17 +38,28 @@ class Runner(object):
             )
 
         capabilities = chrome_options.to_capabilities()
-        self.driver = selw.connect('chrome', self.service.service_url, capabilities)
-        self.driver.get(self.url)
-        self.perf = self.driver.performance.timing
+
+        for run in range(self.runs):
+            driver = selw.connect('chrome', self.service.service_url, capabilities)
+            driver.get(self.url)
+            self.store_perf(driver.performance.timing)
+            driver.quit()
+
+    def store_perf(self, perf):
+        base_line = perf.navigationStart
+
+        self.results['domComplete'].\
+            append(perf.domComplete - base_line)
+        self.results['domInteractive'].\
+            append(perf.domInteractive - base_line)
+        self.results['domContentLoadedEventEnd'].\
+            append(perf.domContentLoadedEventEnd - base_line)
 
     def print_perf(self):
-        self.result = {}
-        base_line = self.perf.navigationStart
-        self.result['domComplete'] = self.perf.domComplete - base_line
-        self.result['domInteractive'] = self.perf.domInteractive - base_line
-        self.result['domContentLoadedEventEnd'] = self.perf.domContentLoadedEventEnd - base_line
-        print(self.result)
+        print("%s:" % self.url)
+        for k, v in self.results.iteritems():
+            result = reduce(lambda x, y: x + y, v) / len(v)
+            print("%s - %ims" % (k, result))
 
 
 def main():
@@ -58,10 +72,15 @@ def main():
         action='store_true',
         help='emulate mobile'
     )
+    parser.add_argument(
+        '-r',
+        '--repetions',
+        type=int,
+        help='Number of runs'
+    )
     args = parser.parse_args()
-    runner = Runner(url=args.url, mobile=args.mobile)
+    runner = Runner(url=args.url, runs=args.repetions, mobile=args.mobile)
     with Xvfb(width=1280, height=720):
         runner.start()
         runner.run_perf()
         runner.print_perf()
-        runner.quit()
