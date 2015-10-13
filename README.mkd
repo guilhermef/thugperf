@@ -13,12 +13,19 @@ pip install thugperf
 ## running:
 ```
 thugperf http://www.globo.com
-{'domComplete': 6521, 'domContentLoadedEventEnd': 2711, 'domInteractive': 2702}
+http://www.globo.com:
+domComplete - 6001ms
+domContentLoadedEventEnd - 1736ms
+domInteractive - 1732ms
 # or
 thugperf -m http://www.globo.com
-{'domComplete': 6521, 'domContentLoadedEventEnd': 2711, 'domInteractive': 2702}
+http://www.globo.com:
+domComplete - 5691ms
+domContentLoadedEventEnd - 1674ms
+domInteractive - 1670ms
 
 ```
 
 ## options:
 * -m [Emulate mobile]
+* -r N [Number of tests to run]
