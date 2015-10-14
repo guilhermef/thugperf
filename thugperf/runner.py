@@ -76,7 +76,8 @@ def main():
         '-r',
         '--repetions',
         type=int,
-        help='Number of runs'
+        help='Number of runs',
+        default=5
     )
     args = parser.parse_args()
     runner = Runner(url=args.url, runs=args.repetions, mobile=args.mobile)
